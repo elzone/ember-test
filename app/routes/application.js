@@ -4,6 +4,6 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
   session: service(),
   beforeModel() {
-    this.session.initSession();
+    //this.session.initSession();
   },
 });
