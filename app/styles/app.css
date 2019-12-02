@@ -1,0 +1,44 @@
+.application {
+  text-align: center;
+}
+
+.battle {
+  display: inline-block;
+}
+
+.button {
+  background-color: #2b81af;
+  border-radius: 6px;
+  color: #ffffff;
+  padding: 10px;
+  margin: 5px;
+  text-decoration: none;
+}
+
+.buttons-group {
+  display: inline-flex;
+}
+
+.cards-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-component {
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  line-height: 2em;
+  margin: 20px 40px;
+  padding: 20px;
+  text-align: center;
+  width: 250px;
+}
+
+.card-component_param3 {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.winner {
+  background-color: rgba(46, 204, 64, 0.2);
+}
