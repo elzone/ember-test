@@ -5,11 +5,11 @@ export default JSONAPIAdapter.extend({
   host: 'https://swapi.co',
   namespace: 'api',
   
-  headers: computed('session.token', function() {
+  /*headers: computed(function() {
     const headers = {};
     
     headers.Accept = 'application/json';
     
     return headers;
-  }),
+  }),*/
 });

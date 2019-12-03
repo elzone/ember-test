@@ -1,9 +1,20 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
 export default Route.extend({
-  session: service(),
   beforeModel() {
-    //this.session.initSession();
+    this.transitionTo('/');
+    this.dataWorker.initDataWorker();
+    this.dataWorker.preparePeopleData();
+    this.dataWorker.prepareStarshipsData();
   },
+  
+  afterModel() {
+    console.log('route name: ', this.get('routeName'));
+  },
+  
+  actions: {
+    newBattle() {
+      this.dataWorker.prepareForBattle();
+    }
+  }
 });

@@ -1,17 +1,26 @@
 <div class="application">
-  <div class="battle">
-    {{outlet}}
-  </div>
-  <hr>
-  <div>
-    <div>Please select game type:</div>
-    <div class="buttons-group">
-      {{#link-to "people" class="button"}}
-        People
-      {{/link-to}}
-      {{#link-to "starships" class="button"}}
-        Star ships
-      {{/link-to}}
+  {{#if this.dataWorker.isLoading}}
+    <div>Loading data...</div>
+  {{else}}
+    <div class="{{if this.dataWorker.isLoading "hide-content"}}">
+      <div>
+        <button class="button" {{action 'newBattle'}}>Replay</button>
+      </div>
+      <div class="battle">
+        {{outlet}}
+      </div>
+      <hr>
+      <div>
+        <div>Please select game type:</div>
+        <div class="buttons-group">
+          {{#link-to "people" class="button"}}
+            People
+          {{/link-to}}
+          {{#link-to "starships" class="button"}}
+            Star ships
+          {{/link-to}}
+        </div>
+      </div>
     </div>
-  </div>
+  {{/if}}
 </div>

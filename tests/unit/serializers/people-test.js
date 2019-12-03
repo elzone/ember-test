@@ -14,7 +14,7 @@ module('Unit | Serializer | people', function(hooks) {
 
   test('it serializes records', function(assert) {
     let store = this.owner.lookup('service:store');
-    let record = store.createRecord('people', {});
+    let record = store.createRecord('peopleForBattle.js', {});
 
     let serializedRecord = record.serialize();
 

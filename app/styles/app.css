@@ -8,6 +8,7 @@
 
 .button {
   background-color: #2b81af;
+  border: none;
   border-radius: 6px;
   color: #ffffff;
   padding: 10px;
@@ -39,6 +40,15 @@
   font-weight: bold;
 }
 
+.hide-content {
+  display: none;
+}
+
 .winner {
   background-color: rgba(46, 204, 64, 0.2);
+}
+
+.wins-wrapper {
+  display: flex;
+  justify-content: space-around;
 }

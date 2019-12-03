@@ -1,11 +1,14 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
 export default Route.extend({
-  store: service(),
+  beforeModel() {
+    this.dataWorker.setBattleType('people');
+    this.dataWorker.prepareForBattle();
+  },
+  afterModel() {
+    console.log('route name: ', this.get('routeName'));
+  },
   model() {
-    const fullData = this.store.findAll('people');
-    console.log('people', fullData);
-    return null;
+    return this.dataWorker.peopleForBattle;
   }
 });
