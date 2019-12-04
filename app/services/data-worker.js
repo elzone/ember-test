@@ -1,23 +1,29 @@
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
 
-
 const DataObject = EmberObject.extend({
   data: null,
   wins: null
 });
 
 export default Service.extend({
-  peopleData: null,
-  peopleForBattle: DataObject.create(),
-  starshipsData: null,
-  starshipsForBattle: DataObject.create(),
+  peopleFullData: null,
+  peopleForBattle: null,
+  starshipsFullData: null,
+  starshipsForBattle: null,
   battleType: null,
   isLoading: true,
+  isRootRoute: true,
   
   initDataWorker() {
-    this.peopleData = [];
-    this.starshipsData = [];
+    this.peopleFullData = [];
+    this.peopleForBattle = DataObject.create();
+    this.starshipsFullData = [];
+    this.starshipsForBattle = DataObject.create();
+  },
+  
+  updateRoute(isRoot) {
+    this.set('isRootRoute', isRoot);
   },
   
   setBattleType(type) {
@@ -25,28 +31,30 @@ export default Service.extend({
   },
   
   preparePeopleData() {
+    this.battleType = 'people';
     this.getPeopleData(null);
   },
   
   prepareStarshipsData() {
+    this.battleType = 'starships';
     this.getStarshipsData(null);
   },
   
-  async getPeopleData(peopleData) {
+  async getPeopleData(peopleFullData) {
     let people;
-    if(peopleData === null) {
-      people = await swapiModule.getPeople(function(data) {
+    if(peopleFullData === null) {
+      people = await window.swapiModule.getPeople(function(data) {
         return data;
       });
     } else {
-      if(peopleData.next !== null) {
-        const nextPage = (peopleData.next).substring((peopleData.next).lastIndexOf('?'));
+      if(peopleFullData.next !== null) {
+        const nextPage = (peopleFullData.next).substring((peopleFullData.next).lastIndexOf('?'));
         const nextPageArray = nextPage.split('=');
-        people = await swapiModule.getPeople({page: nextPageArray[1]}, function(data) {
+        people = await window.swapiModule.getPeople({page: nextPageArray[1]}, function(data) {
           return data;
         });
       } else {
-        this.set('isLoading', false);
+        this. prepareStarshipsData();
         return;
       }
     }
@@ -57,86 +65,110 @@ export default Service.extend({
     this.getPeopleData(people);
   },
   
-  pushDataToStore(data) {
-    if(this.peopleData === []) {
-      this.peopleData = data;
-    } else {
-      this.peopleData = this.peopleData.concat(data);
-    }
-  },
-  
-  prepareForBattle() {
-    let selectArray = [];
-    if(this.battleType === 'people') {
-      let peopleWins;
-      if (this.peopleForBattle.get('wins') !== null) {
-        peopleWins = [...this.peopleForBattle.get('wins')];
-      } else {
-        peopleWins = [0, 0];
-      }
-  
-      const rndOne = this.getRandomNumber(0, this.peopleData.length - 1);
-      const rndTwo = this.getRandomNumber(0, this.peopleData.length - 1);
-  
-      let fromPeopleOne = {...this.peopleData[rndOne]};
-      let fromPeopleTwo = {...this.peopleData[rndTwo]};
-  
-      if (+fromPeopleOne.mass > +fromPeopleTwo.mass) {
-        fromPeopleOne.isWon = true;
-        fromPeopleTwo.isWon = false;
-        peopleWins[0]++;
-      } else if (+fromPeopleOne.mass === +fromPeopleTwo.mass) {
-        fromPeopleOne.isWon = false;
-        fromPeopleTwo.isWon = false;
-      } else if (+fromPeopleOne.mass < +fromPeopleTwo.mass) {
-        fromPeopleOne.isWon = false;
-        fromPeopleTwo.isWon = true;
-        peopleWins[1]++;
-      }
-  
-      selectArray.push(fromPeopleOne);
-      selectArray.push(fromPeopleTwo);
-  
-      this.peopleForBattle.set('data', selectArray);
-      this.peopleForBattle.set('wins', peopleWins);
-    }
-  },
-  
-  getRandomNumber(min, max) {
-    return Math.round(Math.random() * (max - min) + min);
-  },
-  
-  async getStarshipsData(starshipsData) {
-    console.log('starships');
+  async getStarshipsData(starshipsFullData) {
     let starships;
-    if(starshipsData === null) {
-      starships = await swapiModule.getStarships(function(data) {
+    if(starshipsFullData === null) {
+      starships = await window.swapiModule.getStarships(function(data) {
         return data;
       });
     } else {
-      if(starshipsData.next !== null) {
-        const nextPage = (starshipsData.next).substring((starshipsData.next).lastIndexOf('?'));
+      if(starshipsFullData.next !== null) {
+        const nextPage = (starshipsFullData.next).substring((starshipsFullData.next).lastIndexOf('?'));
         const nextPageArray = nextPage.split('=');
-        starships = await swapiModule.getStarships({page: nextPageArray[1]}, function(data) {
+        starships = await window.swapiModule.getStarships({page: nextPageArray[1]}, function(data) {
           return data;
         });
       } else {
+        this.set('isLoading', false);
         return;
       }
     }
     if(starships.results) {
-      console.log(starships.results)
-      //this.pushDataToStore(starships.results);
+      this.pushDataToStore(starships.results);
     }
   
     this.getStarshipsData(starships);
   },
   
-  async fetch(url, method = 'GET') {
-    const response = await fetch(`https://swapi.co/api${url}`, {
-      method
-    });
-    const payload = await response.json();
-    return payload;
+  pushDataToStore(data) {
+    if(this.battleType === 'people') {
+      if (this.peopleFullData === []) {
+        this.peopleFullData = data;
+      } else {
+        this.peopleFullData = this.peopleFullData.concat(data);
+      }
+    } else if(this.battleType === 'starships') {
+      if (this.starshipsFullData === []) {
+        this.starshipsFullData = data;
+      } else {
+        this.starshipsFullData = this.starshipsFullData.concat(data);
+      }
+    }
+  },
+  
+  prepareDataForBattle() {
+    if(this.battleType === 'people') {
+      const randomPeopleData = this.getRandomBattleData(this.peopleForBattle, this.peopleFullData);
+      
+      this.peopleForBattle.set('data', randomPeopleData.selectArray);
+      this.peopleForBattle.set('wins', randomPeopleData.winsArray);
+    } else if(this.battleType === 'starships') {
+      const randomStarshipsData = this.getRandomBattleData(this.starshipsForBattle, this.starshipsFullData);
+      
+      this.starshipsForBattle.set('data', randomStarshipsData.selectArray);
+      this.starshipsForBattle.set('wins', randomStarshipsData.winsArray);
+    }
+  },
+  
+  getRandomBattleData(dataSource, dataFull) {
+    let selectArray;
+    let winsArray;
+    
+    if (dataSource.get('wins') !== null) {
+      winsArray = [...dataSource.get('wins')];
+    } else {
+      winsArray = [0, 0];
+    }
+  
+    const rndOne = this.getRandomNumber(0, dataFull.length - 1);
+    const rndTwo = this.getRandomNumber(0, dataFull.length - 1);
+  
+    let itemOne = {...dataFull[rndOne]};
+    let itemTwo = {...dataFull[rndTwo]};
+    
+    let compareValueOne;
+    let compareValueTwo;
+    if(this.battleType === 'people') {
+      compareValueOne = +itemOne.mass;
+      compareValueTwo = +itemTwo.mass;
+    } else if(this.battleType === 'starships') {
+      compareValueOne = +itemOne.crew;
+      compareValueTwo = +itemTwo.crew;
+    }
+  
+    if (compareValueOne > compareValueTwo) {
+      itemOne.isWon = true;
+      itemTwo.isWon = false;
+      winsArray[0]++;
+    } else if (compareValueOne === compareValueTwo) {
+      itemOne.isWon = false;
+      itemTwo.isWon = false;
+    } else if (compareValueOne < compareValueTwo) {
+      itemOne.isWon = false;
+      itemTwo.isWon = true;
+      winsArray[1]++;
+    }
+    
+    selectArray = [itemOne, itemTwo];
+    
+    let randomData = {};
+    randomData.selectArray = selectArray;
+    randomData.winsArray = winsArray;
+    
+    return randomData;
+  },
+  
+  getRandomNumber(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
   },
 });

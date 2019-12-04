@@ -2,25 +2,27 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import EmberObject from '@ember/object';
 
 module('Integration | Component | starship-card', function(hooks) {
   setupRenderingTest(hooks);
+  
+  hooks.before(function () {
+    this.shipItem = EmberObject.create({
+      name: 'Star Line',
+      'starship_class': 'Very Big',
+      crew: '570'
+    });
+  });
 
-  test('it renders', async function(assert) {
+  test('should render StarshipCard', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<StarshipCard />`);
+    await render(hbs`<StarshipCard @ship={{this.shipItem}}/>`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      <StarshipCard>
-        template block text
-      </StarshipCard>
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.querySelector('.card-component_param1').textContent.trim(), 'Name: Star Line', 'Name: Star Line');
+    assert.equal(this.element.querySelector('.card-component_param2').textContent.trim(), 'Class: Very Big', 'Class: Very Big');
+    assert.equal(this.element.querySelector('.card-component_param3').textContent.trim(), 'Crew: 570', 'Crew: 570');
   });
 });

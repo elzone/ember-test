@@ -1,5 +1,12 @@
-<div class="cards-wrapper">
-  {{#each this.model as |item|}}
-    <StarshipCard @ship={{item}} />
-  {{/each}}
+<div>
+  <div class="wins-wrapper">
+    {{#each this.model.wins as |item|}}
+      <span>Team wins: {{item}}</span>
+    {{/each}}
+  </div>
+  <div class="cards-wrapper">
+    {{#each this.model.data as |item|}}
+      <StarshipCard @ship={{item}} />
+    {{/each}}
+  </div>
 </div>

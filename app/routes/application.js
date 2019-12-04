@@ -5,16 +5,15 @@ export default Route.extend({
     this.transitionTo('/');
     this.dataWorker.initDataWorker();
     this.dataWorker.preparePeopleData();
-    this.dataWorker.prepareStarshipsData();
   },
   
   afterModel() {
-    console.log('route name: ', this.get('routeName'));
+    this.dataWorker.updateRoute(true);
   },
   
   actions: {
     newBattle() {
-      this.dataWorker.prepareForBattle();
+      this.dataWorker.prepareDataForBattle();
     }
   }
 });

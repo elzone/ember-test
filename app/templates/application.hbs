@@ -2,9 +2,9 @@
   {{#if this.dataWorker.isLoading}}
     <div>Loading data...</div>
   {{else}}
-    <div class="{{if this.dataWorker.isLoading "hide-content"}}">
-      <div>
-        <button class="button" {{action 'newBattle'}}>Replay</button>
+    <div class={{if this.dataWorker.isLoading "hide-content"}}>
+      <div class={{if this.dataWorker.isRootRoute "hide-content"}}>
+        <button class="button" {{action "newBattle"}}>Replay</button>
       </div>
       <div class="battle">
         {{outlet}}
@@ -13,10 +13,10 @@
       <div>
         <div>Please select game type:</div>
         <div class="buttons-group">
-          {{#link-to "people" class="button"}}
+          {{#link-to "people" class="button js-button-people"}}
             People
           {{/link-to}}
-          {{#link-to "starships" class="button"}}
+          {{#link-to "starships" class="button js-button-starships"}}
             Star ships
           {{/link-to}}
         </div>
