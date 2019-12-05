@@ -37,6 +37,10 @@
   flex-direction: row;
 }
 
+.badge {
+  margin-bottom: 20px;
+}
+
 .hide-content {
   display: none;
 }

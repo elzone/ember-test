@@ -1,5 +1,10 @@
 <div class="card md-3 {{if this.people.isWon "bg-success text-white"}}">
   <div class="card-body">
+    {{#if this.people.isWon}}
+      <div class="text-right">
+        <div class="badge badge-danger">Winner</div>
+      </div>
+    {{/if}}
     <div class="card-text">
       <div class="js-card-text1">Name: {{this.people.name}}</div>
       <div class="js-card-text2">Gender: {{this.people.gender}}</div>

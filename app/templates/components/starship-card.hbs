@@ -1,5 +1,10 @@
 <div class="card md-3 {{if this.ship.isWon "bg-success text-white"}}">
   <div class="card-body">
+    {{#if this.ship.isWon}}
+      <div class="text-right">
+        <div class="badge badge-danger">Winner</div>
+      </div>
+    {{/if}}
     <div class="card-text">
       <div class="js-card-text1">Name: {{this.ship.name}}</div>
       <div class="js-card-text2">Class: {{this.ship.starship_class}}</div>
