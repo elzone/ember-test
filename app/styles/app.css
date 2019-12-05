@@ -17,28 +17,24 @@
   text-decoration: none;
 }
 
+.button:hover {
+  color: #c2ccd1;
+  text-decoration: none;
+}
+
 .buttons-group {
   display: inline-flex;
+}
+
+.card {
+  min-width: 15rem;
+  max-width: 15rem;
+  margin: 5px 10px;
 }
 
 .cards-wrapper {
   display: flex;
   flex-direction: row;
-}
-
-.card-component {
-  background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  line-height: 2em;
-  margin: 20px 40px;
-  padding: 20px;
-  text-align: center;
-  width: 250px;
-}
-
-.card-component_param3 {
-  font-size: 1.4em;
-  font-weight: bold;
 }
 
 .hide-content {

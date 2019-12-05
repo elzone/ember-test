@@ -22,8 +22,8 @@ module('Integration | Component | people-card', function(hooks) {
 
     await render(hbs`<PeopleCard @people={{this.peopleItem}} />`);
     
-    assert.equal(this.element.querySelector('.card-component_param1').textContent.trim(), 'Name: Jon Small', 'Name: Jon Small');
-    assert.equal(this.element.querySelector('.card-component_param2').textContent.trim(), 'Gender: Male', 'Gender: Male');
-    assert.equal(this.element.querySelector('.card-component_param3').textContent.trim(), 'Mass: 77', 'Mass: 77');
+    assert.equal(this.element.querySelector('.js-card-text1').textContent.trim(), 'Name: Jon Small', 'Name: Jon Small');
+    assert.equal(this.element.querySelector('.js-card-text2').textContent.trim(), 'Gender: Male', 'Gender: Male');
+    assert.equal(this.element.querySelector('.card-title').textContent.trim(), 'Mass: 77', 'Mass: 77');
   });
 });

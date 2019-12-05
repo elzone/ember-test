@@ -1,5 +1,9 @@
-<div class="card-component {{if this.ship.isWon "winner"}}">
-  <div class="card-component_param1">Name: {{this.ship.name}}</div>
-  <div class="card-component_param2">Class: {{this.ship.starship_class}}</div>
-  <div class="card-component_param3">Crew: {{this.ship.crew}}</div>
+<div class="card md-3 {{if this.ship.isWon "bg-success text-white"}}">
+  <div class="card-body">
+    <div class="card-text">
+      <div class="js-card-text1">Name: {{this.ship.name}}</div>
+      <div class="js-card-text2">Class: {{this.ship.starship_class}}</div>
+    </div>
+    <h5 class="card-title">Crew: {{this.ship.crew}}</h5>
+  </div>
 </div>

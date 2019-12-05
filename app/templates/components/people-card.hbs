@@ -1,5 +1,9 @@
-<div class="card-component {{if this.people.isWon "winner"}}">
-  <div class="card-component_param1">Name: {{this.people.name}}</div>
-  <div class="card-component_param2">Gender: {{this.people.gender}}</div>
-  <div class="card-component_param3">Mass: {{this.people.mass}}</div>
+<div class="card md-3 {{if this.people.isWon "bg-success text-white"}}">
+  <div class="card-body">
+    <div class="card-text">
+      <div class="js-card-text1">Name: {{this.people.name}}</div>
+      <div class="js-card-text2">Gender: {{this.people.gender}}</div>
+    </div>
+    <h5 class="card-title">Mass: {{this.people.mass}}</h5>
+  </div>
 </div>

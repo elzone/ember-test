@@ -21,8 +21,8 @@ module('Integration | Component | starship-card', function(hooks) {
 
     await render(hbs`<StarshipCard @ship={{this.shipItem}}/>`);
 
-    assert.equal(this.element.querySelector('.card-component_param1').textContent.trim(), 'Name: Star Line', 'Name: Star Line');
-    assert.equal(this.element.querySelector('.card-component_param2').textContent.trim(), 'Class: Very Big', 'Class: Very Big');
-    assert.equal(this.element.querySelector('.card-component_param3').textContent.trim(), 'Crew: 570', 'Crew: 570');
+    assert.equal(this.element.querySelector('.js-card-text1').textContent.trim(), 'Name: Star Line', 'Name: Star Line');
+    assert.equal(this.element.querySelector('.js-card-text2').textContent.trim(), 'Class: Very Big', 'Class: Very Big');
+    assert.equal(this.element.querySelector('.card-title').textContent.trim(), 'Crew: 570', 'Crew: 570');
   });
 });
