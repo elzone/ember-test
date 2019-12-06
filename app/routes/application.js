@@ -1,19 +1,16 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
+  dataWorker: service(),
+  
   beforeModel() {
     this.transitionTo('/');
     this.dataWorker.initDataWorker();
-    this.dataWorker.preparePeopleData();
+    this.dataWorker.prepareData('people');
   },
   
   afterModel() {
-    this.dataWorker.updateRoute(true);
-  },
-  
-  actions: {
-    newBattle() {
-      this.dataWorker.prepareDataForBattle();
-    }
+    this.dataWorker.updateRootRoute(true);
   }
 });
