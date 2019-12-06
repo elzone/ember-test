@@ -38,25 +38,15 @@ export default Service.extend(Evented, {
     this.battleType = battleType;
     this.setFullData(null);
   },
-  
-  /*async getData() {
-    await this.store.queryRecord('people', {page: 1})
-      .then(function(response) {
-        console.log('res', response.results)
-    });
-    await this.store.queryRecord('people', {page: 2});
-    await this.store.queryRecord('people', {page: 3});
-    console.log('record', this.store.peekRecord('people', 'page=2').results);
-  },*/
-  
+ 
   async getDataFromServer(pageId) {
-    try {
+    //try {
       await this.store.queryRecord(this.battleType, {page: pageId});
       
       return this.store.peekRecord(this.battleType, `page${pageId}`);
-    } catch(error) {
-      alert(`Couldn't load all data from server. Please reload the page.`);
-    }
+    //} catch(error) {
+      //alert(`Couldn't load all data from server. Please reload the page.`);
+    //}
   },
   
   async setFullData(serverData) {

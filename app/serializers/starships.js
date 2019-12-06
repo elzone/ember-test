@@ -1,18 +1,11 @@
 import DS from 'ember-data';
+import SerializerBase from '../mixins/serializer-base';
 
-export default DS.JSONSerializer.extend({
+export default DS.JSONSerializer.extend(SerializerBase, {
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {
-    let idFromPayload;
-    if(payload.next !== null) {
-      idFromPayload = this.getItemId(payload.next, 'next');
-    } else {
-      idFromPayload = this.getItemId(payload.previous, 'previous');
-    }
+    const idFromPayload = this.getDataId(payload);
     
-    const resultsLength = payload.results.length;
-    for(let i = 0; i < resultsLength; i++) {
-      payload.results[i].crew = payload.results[i].crew === 'unknown' ? '0' : payload.results[i].crew;
-    }
+    payload.results = this.updateParamValue(payload.results, 'starships');
     
     const data = {
       id: idFromPayload,
@@ -23,19 +16,5 @@ export default DS.JSONSerializer.extend({
     };
     
     return this._super(store, primaryModelClass, data, id, requestType);
-  },
-  
-  getItemId(initString, idType) {
-    const pageSubstring = (initString).substring((initString).lastIndexOf('page'));
-    const pageSubstringArray = pageSubstring.split('=');
-    let idFromPayload;
-    
-    if(idType === 'next') {
-      idFromPayload = `${pageSubstringArray[0]}${+pageSubstringArray[1] - 1}`;
-    } else {
-      idFromPayload = `${pageSubstringArray[0]}${+pageSubstringArray[1] + 1}`;
-    }
-    
-    return idFromPayload;
   }
 });
