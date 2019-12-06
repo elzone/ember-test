@@ -1,15 +1,13 @@
 <div class="application">
-  {{#if this.dataWorker.isLoading}}
-    <div>Loading data...</div>
-  {{else}}
-    <div class={{if this.dataWorker.isLoading "hide-content"}}>
-      <div class={{if this.dataWorker.isRootRoute "hide-content"}}>
-        <button class="button" {{action "newBattle"}}>Replay</button>
-      </div>
-      <div class="battle">
-        {{outlet}}
-      </div>
-      <hr>
+    <ReplayButton />
+    <div class="battle">
+      {{outlet}}
+    </div>
+    <hr>
+  <div>
+    {{#if this.isLoading}}
+      <div>Loading data...</div>
+    {{else}}
       <div>
         <div>Please select game type:</div>
         <div class="buttons-group">
@@ -21,6 +19,6 @@
           {{/link-to}}
         </div>
       </div>
-    </div>
-  {{/if}}
+    {{/if}}
+  </div>
 </div>
